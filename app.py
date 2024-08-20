@@ -227,7 +227,8 @@ def main():
                         
             with third_col: 
                 with st.expander("Edit JSON"):
-                    edit_json(st.session_state.llm_elements)
+                    with st.container(height=500):
+                        edit_json(st.session_state.llm_elements)
             
 
         json_converter = st.button("Convert to JSON")
@@ -236,6 +237,7 @@ def main():
 
         if st.session_state.json: 
             convert_to_json(st.session_state.llm_elements, filename='output.json')
+
         
 if __name__ == "__main__": 
     main()
