@@ -1,4 +1,9 @@
-import google.generativeai as genai 
+"""
+Author: Ali Vijdaan
+Description: LLM Summarizaiton functions
+"""
+
+import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 
@@ -10,12 +15,12 @@ genai.configure(api_key=gemini_api_key)
 
 model = genai.GenerativeModel('gemini-1.5-flash')
 
-def get_response(prompt, image): 
-    
+def get_response(prompt, image):
+
     response = model.generate_content(
-        [prompt, image], 
+        [prompt, image],
         generation_config= genai.GenerationConfig(
-            temperature=0.5, 
+            temperature=0.5,
             top_k=5
         )
     )
