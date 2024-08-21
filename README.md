@@ -7,6 +7,7 @@ The repo is an attempt to create an automated pipleine for extracting infromatio
 
 ## **To-Do List**
 📝 Add OpenAI API Key Support<br>
+📝 Switch to Django<br>
 📝 ~~Make streamlit editable to choose between OCR or LLM summaries~~<br>
 📝 Concatenate JSON blocks for page-by-page chunking<br>
 📝 Replace pip with poetry<br>
