@@ -12,6 +12,7 @@ import PIL.Image
 
 from extraction_ocr import ocr_extraction, image_element_items, text_element_items, table_element_items, convert_to_json
 from vision_llm_summarizer import get_response
+from converter import html_to_json_table
 from prompt import prompt
 
 #sanitize elements for HTML
@@ -108,6 +109,11 @@ def filter_extracted_text(raw_elements, llm_summary):
                 {summary_text} <br>
                 ----------------------------------------------
                 </p><br>"""
+
+        elif type(element) in table_element_items:
+            json_table = html_to_json_table(element.metadata.text_as_html)
+            element.metadata.json_table = json_table
+            return f"<p>{element.metadata.json_table}</p><br>"
         return f"<p>{sanitized_element}</p><br>"
 
     #Create a container with the custom class
@@ -168,10 +174,10 @@ def edit_json(llm_elements):
             element.metadata.summary = edited_image
         elif type(element) in table_element_items:
             edited_table = st.text_area(label="-",
-                                        value=element.text,
+                                        value=element.metadata.json_table,
                                         label_visibility="collapsed",
                                         key=i)
-            element.text = edited_table
+            element.metadata.json_table = edited_table
 
 def main():
     st.set_page_config(page_title="Doc Extractor", layout="wide")
@@ -224,9 +230,6 @@ def main():
 
                     if 'llm_elements' not in st.session_state:
                         st.session_state.llm_elements = get_image_summary(st.session_state['ocr_run_raw_ele'])
-
-                    #for element in raw_elements:
-                        #print(element.metadata.to_dict())
 
                     filter_extracted_text(st.session_state.llm_elements, llm_summary=True)
 

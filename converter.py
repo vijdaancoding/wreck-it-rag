@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-def html_to_json_table(table_html, expecting_header_row=True):
+def html_to_json_table(table_html):
     soup = BeautifulSoup(table_html, 'html.parser')
     table_el = soup.find('table')
 
@@ -10,11 +10,14 @@ def html_to_json_table(table_html, expecting_header_row=True):
                 }
 
     columns = [th.text.strip() for th in table_el.find_all('th')]
-    rows = table_el.find('tbody').find_all('tr')
+    if not columns:
+        columns = [td.text.strip() for td in table_el.find('tr').find_all('td')]
 
-    if not columns and expecting_header_row:
-        columns = [td.text.strip() for td in rows[0].find_all('td')]
-        rows = rows[1:]
+    tbody_el = table_el.find('tbody')
+    if tbody_el:
+        rows = tbody_el.find_all('tr')
+    else:
+        rows = table_el.find_all('tr')[1:]
 
     return_json = {
         'headers': columns,
@@ -23,11 +26,12 @@ def html_to_json_table(table_html, expecting_header_row=True):
 
     for row in rows:
         cells = row.find_all('td')
-        row_data = {columns[idx]: cells[idx].text.strip() for idx in range(len(columns))}
+        row_data = {}
+        for idx in range(len(columns)):
+            if idx < len(cells):
+                row_data[columns[idx]] = cells[idx].text.strip()
+            else:
+                row_data[columns[idx]] = ''
         return_json['rows'].append(row_data)
-
-    if not expecting_header_row and not return_json['headers']:
-        if return_json['rows'] and not any(return_json['rows'][0].values()):
-            return html_to_json_table(table_html, expecting_header_row=True)
 
     return return_json
