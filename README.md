@@ -61,3 +61,9 @@ Create an .env file with the following variable
 GEMINI_API_KEY = your-gemini-api-key-here
 ```
 
+## **4. Run Streamlit App**
+
+Run the streamlit app using the following command
+```
+streamlit run app.py
+```
