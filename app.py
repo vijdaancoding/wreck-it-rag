@@ -159,24 +159,35 @@ def get_image_summary(raw_elements):
     return raw_elements
 
 def edit_json(llm_elements):
+
+    def validate(input):
+        if not input:
+            llm_elements.remove(element)
+
     for i, element in enumerate(llm_elements):
         if type(element) in text_element_items:
             edited_text = st.text_area(label="-",
                                        value=element.text,
+                                       placeholder="If empty JSON would be deleted",
                                        label_visibility="collapsed",
                                        key=i)
+            validate(edited_text)
             element.text = edited_text
         elif type(element) in image_element_items:
             edited_image = st.text_area(label="-",
                                         value=element.metadata.summary,
+                                        placeholder="If empty JSON would be deleted",
                                         label_visibility="collapsed",
                                         key=i)
+            validate(edited_image)
             element.metadata.summary = edited_image
         elif type(element) in table_element_items:
             edited_table = st.text_area(label="-",
                                         value=element.metadata.json_table,
+                                        placeholder="If empty JSON would be deleted",
                                         label_visibility="collapsed",
                                         key=i)
+            validate(edited_table)
             element.metadata.json_table = edited_table
 
 def main():
