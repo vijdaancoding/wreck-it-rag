@@ -4,6 +4,7 @@ Description: LLM Summarizaiton functions
 """
 
 import google.generativeai as genai
+import openai
 from dotenv import load_dotenv
 import os
 
@@ -27,7 +28,9 @@ def get_response(prompt, image):
 
     return response
 
+openai_api_key = os.getenv("OPEN_AI_KEY")
+client = openai.OpenAI(api_key=openai_api_key)
 
-
+# Note: Add OPEN AI Chat Completion Prompt
 
 

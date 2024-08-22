@@ -1,6 +1,7 @@
 streamlit==1.37.1
 Pillow==10.4.0
 google-generativeai==0.7.2
+openai
 python-dotenv
 unstructured
 beautifulsoup4
