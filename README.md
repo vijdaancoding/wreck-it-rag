@@ -10,7 +10,7 @@ The repo is an attempt to create an automated pipleine for extracting infromatio
 📝 Switch to Django<br>
 📝 ~~Make streamlit editable to choose between OCR or LLM summaries~~<br>
 📝 Concatenate JSON blocks for page-by-page chunking<br>
-📝 Replace pip with poetry<br>
+📝 ~~Use a package manager for requirements.txt~~<br>
 📝 ~~Convert Tables from HTML to JSON~~<br>
 📝 Integrate SQL database to store JSON<br>
 📝 Look into Apache Spark or Hadoop<br>
